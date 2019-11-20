@@ -1,6 +1,7 @@
 import sys
 from myTask import MyTask
 from timeit import default_timer as timer
+from itertools import islice
 import os
 
 
@@ -467,6 +468,18 @@ class CNF:
         start = timer()
         acts = task.get_action_names()
 
+        
+        # ALBERTO
+        """
+        #0.5 y 0.2 para el caso de scratch inicial
+        l1 = int(0.4*len(controllerStates))
+        l2 = int(0.35*len(controllerStates))
+        #controllerDivision = [list(islice(controllerStates, elem))
+         #for elem in [l1,l2,l3]]
+        controllerDivision = [controllerStates[:l1],controllerStates[l1:l1+l2],controllerStates[l1+l2:]]
+        print('..Controller division..')
+        print(str(controllerDivision))"""
+
         for n1 in controllerStates:
             for a_name in acts:
                 for n2 in controllerStates:
@@ -482,11 +495,38 @@ class CNF:
                     pair2 = self.generatePairActionControllerState(a_name, n1)
                     self.addClause(['-' + pair1, pair2])  # 4
 
-                var1 = self.generatePairActionControllerState(a_name, n1)
-                var_triplets = []
-                for n2 in controllerStates:
+                
+                # ALBERTO
+                # To execute this optimization, comment lines 523 to 528 and uncomment these lines,
+                # as well as the bucket division (lines 475 to 481)
+                """
+                position = None
+                for b in range(len(controllerDivision)):
+                    if n1 in controllerDivision[b]:
+                        position = b + 1
+                if ('l' + str(position) in a_name) or ('unfair' in a_name) or ('explain' in a_name) or ('goal' in a_name):
+                    for n2 in controllerStates:
+                        var_triplets.append(self.generateTripletCSACS(n1, a_name, n2))
+                    self.addClause(['-' + var1] + var_triplets)  # 2
+                else:
+                    self.addClause(['-' + var1] + var_triplets)  # 2
+                    #print('NO PUEDO EJECUTAR ' + a_name + ' en l' + str(position))
+
+
+                newControllerList = []
+                for bucket in controllerDivision[position-1:]:
+                    newControllerList += bucket
+                for n2 in newControllerList:
                     var_triplets.append(self.generateTripletCSACS(n1, a_name, n2))
                 self.addClause(['-' + var1] + var_triplets)  # 2
+                """
+
+                var1 = self.generatePairActionControllerState(a_name, n1)
+                var_triplets = []
+
+                for n2 in controllerStates:
+                    var_triplets.append(self.generateTripletCSACS(n1, a_name, n2))
+                self.addClause(['-' + var1] + var_triplets) # 2
 
                 var1 = self.generatePairActionControllerState(a_name, n1)
                 var_bin = []

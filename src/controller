@@ -1,0 +1,386 @@
+digraph {
+	n0 [label="-eff_2_walk
+-eff_2_run
+-broken
+-eff_1_run
+-e2
+-walk_unfair
+-eff_1_walk
+-eff_3_walk
+l3
+act
+-e3
+at(c2)
+-eff_3_run
+-scratch
+-run_unfair"]
+	n1 [label="-e2
+-scratch
+-eff_1_walk
+l3
+act
+-eff_2_run
+-walk_unfair
+-eff_3_run
+-run_unfair
+-broken
+-eff_1_run
+at(c1)
+-eff_3_walk
+-eff_2_walk
+-e3"]
+	n2 [label="-eff_1_walk
+-e3
+-scratch
+-eff_3_run
+-e2
+-run_unfair
+at(c2)
+-act
+-eff_2_run
+l3
+walk_unfair
+-eff_1_run
+-broken
+-eff_3_walk
+-eff_2_walk"]
+	n3 [label="-broken
+-scratch
+l3
+at(c0)
+act"]
+	n4 [label="-run_unfair
+-act
+l3
+-eff_2_run
+-eff_1_run
+-scratch
+walk_unfair
+-eff_2_walk
+-eff_3_walk
+-eff_1_walk
+-eff_3_run
+-e2
+-e3
+at(c1)
+-broken"]
+	n5 [label="-e2
+l3
+e1
+at(c2)
+-eff_3_walk
+-eff_3_run
+-act
+-eff_2_run
+-eff_1_run
+-e3
+-eff_2_walk
+-broken
+eff_1_walk"]
+	n6 [label="-broken
+-eff_3_run
+-eff_1_walk
+eff_2_walk
+-e3
+-eff_3_walk
+-walk_unfair
+-run_unfair
+e2
+at(c2)
+-act
+-eff_2_run
+l3
+-eff_1_run"]
+	n7 [label="-eff_2_walk
+-eff_1_run
+-walk_unfair
+-run_unfair
+e3
+-scratch
+eff_3_walk
+l3
+at(c2)
+-broken
+-eff_3_run
+-act
+-eff_1_walk
+-eff_2_run"]
+	n8 [label="-scratch
+at(c1)
+e3
+-act
+l3
+eff_3_walk
+-broken
+-eff_1_run
+-run_unfair
+-eff_1_walk
+-eff_2_walk
+-walk_unfair
+-eff_2_run
+-eff_3_run"]
+	n9 [label="-eff_3_walk
+eff_1_walk
+e1
+-eff_2_run
+-eff_3_run
+-e3
+-e2
+-eff_2_walk
+-act
+-walk_unfair
+-broken
+-eff_1_run
+-run_unfair
+l3
+at(c1)"]
+	n10 [label="-eff_1_run
+e2
+-eff_3_run
+l3
+eff_2_walk
+-act
+-eff_1_walk
+at(c1)
+-broken
+-eff_3_walk
+-e3
+-eff_2_run"]
+	n11 [label="-e3
+-act
+-eff_2_walk
+-broken
+-eff_3_walk
+-eff_3_run
+-e2
+-eff_2_run
+at(c2)
+l3
+e1
+-eff_1_walk
+-eff_1_run"]
+	n12 [label="-eff_1_walk
+at(c1)
+-broken
+-act
+-eff_3_run
+-e3
+-eff_3_walk
+-eff_2_run
+-eff_2_walk
+-eff_1_run
+e2
+-run_unfair
+l3
+-walk_unfair"]
+	n13 [label="-run_unfair
+e3
+-scratch
+-eff_3_walk
+l3
+-walk_unfair
+-eff_2_run
+-eff_1_run
+-eff_1_walk
+at(c1)
+-act
+-eff_2_walk
+-broken
+-eff_3_run"]
+	n14 [label="-eff_2_run
+-eff_1_run
+at(c2)
+-run_unfair
+-eff_2_walk
+-eff_3_run
+-walk_unfair
+l3
+-act
+-scratch
+-eff_1_walk
+e3
+-broken
+-eff_3_walk"]
+	n15 [label="-e3
+at(c1)
+-act
+-eff_1_run
+-e2
+-eff_2_walk
+-broken
+e1
+-eff_3_run
+-run_unfair
+-eff_3_walk
+-walk_unfair
+-eff_2_run
+l3
+-eff_1_walk"]
+	n16 [label="l3
+-e3
+-eff_1_walk
+-broken
+-eff_1_run
+-eff_3_walk
+-eff_2_run
+-eff_2_walk
+at(c0)
+e2
+-eff_3_run
+-act"]
+	n17 [label="-broken
+at(c2)
+l1
+act"]
+	n18 [label="at(c1)
+-run_unfair
+-e2
+-eff_2_run
+l2
+-broken
+-eff_1_run
+-eff_3_run
+-eff_3_walk
+-walk_unfair
+act
+-eff_1_walk
+-eff_2_walk"]
+	n19 [label="act
+l1
+-run_unfair
+at(c1)
+-broken
+-walk_unfair"]
+	n20 [label="at(c0)
+-broken
+l2
+act"]
+	n21 [label="-eff_3_walk
+-eff_1_run
+-eff_2_walk
+-e2
+-eff_2_run
+-eff_3_run
+-eff_1_walk
+-act
+-broken
+at(c1)
+walk_unfair
+-run_unfair
+l2"]
+	n22 [label="-eff_3_run
+l2
+-eff_1_walk
+-eff_1_run
+eff_3_walk
+e3
+-eff_2_run
+-e2
+at(c1)
+-eff_2_walk
+-broken
+-act"]
+	n23 [label="-broken
+eff_2_walk
+at(c1)
+-act
+l2
+-eff_1_run
+-eff_3_walk
+e2
+-eff_2_run
+-eff_3_run
+-eff_1_walk"]
+	n24 [label="-eff_2_run
+eff_1_walk
+-eff_3_walk
+-eff_2_walk
+-broken
+-run_unfair
+-eff_3_run
+-act
+-walk_unfair
+l2
+-eff_1_run
+-e2
+e1
+at(c1)"]
+	n25 [label="-eff_2_walk
+-act
+-e2
+e3
+-eff_3_walk
+-eff_3_run
+-eff_1_run
+-eff_2_run
+at(c0)
+-eff_1_walk
+-broken
+l2"]
+	n26 [label="l2
+-act
+-eff_1_walk
+-eff_1_run
+-eff_3_walk
+-eff_2_run
+at(c0)
+-eff_2_walk
+-broken
+e2
+-eff_3_run"]
+	n27 [label="-eff_1_walk
+at(c1)
+-broken
+l2
+-act
+-eff_2_walk
+e1
+-e2
+-eff_1_run
+-eff_3_run
+-eff_3_walk
+-walk_unfair
+-run_unfair
+-eff_2_run"]
+	ng [label=end]
+	n0 -> n1 [label=walk_l3_fair]
+	n0 -> n2 [label=walk_l3_fair]
+	n1 -> n4 [label=walk_l3_fair]
+	n1 -> n3 [label=walk_l3_fair]
+	n2 -> n5 [label=walk_unfair__DETDUP_2]
+	n2 -> n6 [label=walk_unfair_]
+	n2 -> n7 [label=walk_unfair_]
+	n3 -> ng [label=check_goal_3]
+	n4 -> n9 [label=walk_unfair__DETDUP_2]
+	n4 -> n8 [label=walk_unfair_]
+	n4 -> n10 [label=walk_unfair_]
+	n5 -> n11 [label=walk_eff1_explained_by_l1]
+	n6 -> n12 [label=walk_eff2_explained_by_l2]
+	n7 -> n13 [label=walk_eff3_explained_by_l3]
+	n8 -> n14 [label=walk_eff3_explained_by_l3]
+	n9 -> n15 [label=walk_eff1_explained_by_l1]
+	n10 -> n16 [label=walk_eff2_explained_by_l2]
+	n11 -> n17 [label=degrade_3_1]
+	n12 -> n18 [label=degrade_3_2]
+	n13 -> n1 [label=continue_3]
+	n14 -> n0 [label=continue_3]
+	n15 -> n19 [label=degrade_3_1]
+	n16 -> n20 [label=degrade_3_2]
+	n17 -> ng [label=check_goal_1]
+	n18 -> n20 [label=walk_l2_fair]
+	n18 -> n21 [label=walk_l2_fair_DETDUP_2]
+	n18 -> n20 [label=walk_l2_fair]
+	n19 -> n19 [label=walk_l1_fair_DETDUP_2]
+	n19 -> n17 [label=walk_l1_fair]
+	n19 -> n17 [label=walk_l1_fair]
+	n20 -> ng [label=check_goal_2]
+	n21 -> n24 [label=walk_unfair__DETDUP_2]
+	n21 -> n22 [label=walk_unfair_]
+	n21 -> n23 [label=walk_unfair_]
+	n22 -> n25 [label=walk_eff3_explained_by_l3]
+	n23 -> n26 [label=walk_eff2_explained_by_l2]
+	n24 -> n27 [label=walk_eff1_explained_by_l1]
+	n25 -> n20 [label=continue_2_bis]
+	n26 -> n20 [label=continue_2]
+	n27 -> n19 [label=degrade_2_1]
+}
