@@ -13,184 +13,164 @@
 		(scratch)
 		(end)
 		(act)
-		(l3)
-		(e3)
-		(eff_3_walk)
-		(eff_3_run)
-		(l2)
-		(e2)
-		(eff_2_walk)
-		(eff_2_run)
-		(l1)
-		(e1)
-		(eff_1_walk)
-		(eff_1_run)
-		(walk_unfair)
-		(run_unfair)
+		(l_d3)
+		(e_d3)
+		(eff_d3_walk)
+		(eff_d3_run)
+		(l_d2)
+		(e_d2)
+		(eff_d2_walk)
+		(eff_d2_run)
+		(l_d1)
+		(e_d1)
+		(eff_d1_walk)
+		(eff_d1_run)
+		(u_walk)
+		(u_run)
 	)
-	(:action continue_3 
+	(:action continue_d3 
 		:parameters ()
-		:precondition (and (not (act)) (e3) (l3) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
+		:precondition (and  (not (act)) (l_d3) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)) (or (e_d3)))
+		:effect (and (act) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
-	(:action continue_2 
+	(:action continue_d2 
 		:parameters ()
-		:precondition (and (not (act)) (e2) (l2) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
+		:precondition (and  (not (act)) (l_d2) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)) (or (e_d3) (e_d2)))
+		:effect (and (act) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
-
-	(:action continue_2_bis 
+	(:action continue_d1 
 		:parameters ()
-		:precondition (and (not (act)) (not (e2)) (e3) (l2) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
+		:precondition (and  (not (act)) (l_d1) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)) (or (e_d3) (e_d2) (e_d1)))
+		:effect (and (act) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
-
-	(:action continue_1 
+	(:action degrade_d3_d2 
 		:parameters ()
-		:precondition (and (not (act)) (e1) (l1) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
+		:precondition (and  (not (act)) (l_d3) (e_d2) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)))
+		:effect (and (act) (l_d2) (not (l_d3)) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
-
-	(:action continue_1_bis
+	(:action degrade_d3_d1 
 		:parameters ()
-		:precondition (and (not (act)) (e3) (not (e1)) (not (e2)) (l1) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
+		:precondition (and  (not (act)) (l_d3) (e_d1) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)))
+		:effect (and (act) (l_d1) (not (l_d3)) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
-
-	(:action continue_1_bis_bis 
+	(:action degrade_d2_d1 
 		:parameters ()
-		:precondition (and (not (act)) (e2) (not (e1)) (not (e3)) (l1) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (not (e3)) (not (e2)) (not (e1)))
-	)
-
-	(:action degrade_3_2 
-		:parameters ()
-		:precondition (and (not (act)) (l3) (e2) (not (e3)) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (l2) (not (l3)) (not (e3)) (not (e2)) (not (e1)))
-	)
-	(:action degrade_3_1 
-		:parameters ()
-		:precondition (and (not (act)) (l3) (e1) (not (e3)) (not (e2)) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (l1) (not (l3)) (not (e3)) (not (e2)) (not (e1)))
-	)
-	(:action degrade_2_1 
-		:parameters ()
-		:precondition (and (not (act)) (l2) (e1) (not (e2)) (not (eff_3_walk)) (not (eff_3_run)) (not (eff_2_walk)) (not (eff_2_run)) (not (eff_1_walk)) (not (eff_1_run)))
-		:effect (and (act) (l1) (not (l2)) (not (e3)) (not (e2)) (not (e1)))
-	)
-	(:action walk_l3_fair 
-		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (l3) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at ?o)) (at ?d)) (and (not (act)) (walk_unfair)))
-	)
-	(:action walk_l2_fair 
-		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (l2) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at ?o)) (at ?d)) (and (not (at ?o)) (at ?d) (scratch)) (and (not (act)) (walk_unfair)))
-	)
-	(:action walk_l1_fair 
-		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (l1) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at ?o)) (at ?d)) (and (not (at ?o)) (at ?d) (scratch)) (and (scratch)))
+		:precondition (and  (not (act)) (l_d2) (e_d1) (not (eff_d3_walk)) (not (eff_d3_run)) (not (eff_d2_walk)) (not (eff_d2_run)) (not (eff_d1_walk)) (not (eff_d1_run)))
+		:effect (and (act) (l_d1) (not (l_d2)) (not (e_d3)) (not (e_d2)) (not (e_d1)))
 	)
 	(:action walk_unfair_ 
 		:parameters ()
-		:precondition (and (not (run_unfair)) (not (act)) (walk_unfair))
-		:effect (oneof (and (eff_3_walk) (e3) (not (walk_unfair))) (and (eff_2_walk) (e2) (not (walk_unfair))) (and (eff_1_walk) (e1) (not (walk_unfair))))
+		:precondition (and  (act) (u_walk))
+		:effect (oneof (and (eff_d3_walk) (not (act))) (and (eff_d2_walk) (not (act))) (and (eff_d1_walk) (not (act))))
 	)
-	(:action walk_eff3_explained_by_l3 
+	(:action walk_d3 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_3_walk))
-		:effect (and (not (at ?o)) (at ?d) (not (eff_3_walk)))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (l_d3) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at ?o)) (at ?d)) (u_walk))
 	)
-	(:action walk_eff2_explained_by_l3 
+	(:action walk_d2 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_2_walk) (scratch))
-		:effect (and (not (at ?o)) (at ?d) (scratch) (not (eff_2_walk)) (e3))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (l_d2) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at ?o)) (at ?d)) (and (not (at ?o)) (at ?d) (scratch)) (u_walk))
 	)
-	(:action walk_eff1_explained_by_l3 
+	(:action walk_d1 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_1_walk) (scratch) (not (at ?o)) (at ?d))
-		:effect (and (scratch) (not (eff_1_walk)) (e3))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (l_d1) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at ?o)) (at ?d)) (and (not (at ?o)) (at ?d) (scratch)) (scratch))
 	)
-	(:action walk_eff2_explained_by_l2 
+	(:action walk_eff_d3_explained_by_d3 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_2_walk))
-		:effect (and (not (at ?o)) (at ?d) (scratch) (not (eff_2_walk)))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d3_walk))
+		:effect (and (not (at ?o)) (at ?d) (e_d3) (not (eff_d3_walk)) (not (act)) (not (u_walk)))
 	)
-	(:action walk_eff1_explained_by_l2 
+	(:action walk_eff_d2_explained_by_d3 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_1_walk) (not (at ?o)) (at ?d))
-		:effect (and (scratch) (not (eff_1_walk)) (e2))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d2_walk) (scratch))
+		:effect (and (not (at ?o)) (at ?d) (scratch) (e_d3) (not (eff_d2_walk)) (not (act)) (not (u_walk)))
 	)
-	(:action walk_eff1_explained_by_l1 
+	(:action walk_eff_d2_explained_by_d2 
 		:parameters (?o - cell ?d - cell)
-		:precondition (and (at ?o) (adj ?o ?d) (not (broken)) (eff_1_walk))
-		:effect (and (scratch) (not (eff_1_walk)))
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d2_walk) (or (not (scratch))))
+		:effect (and (not (at ?o)) (at ?d) (scratch) (e_d2) (not (eff_d2_walk)) (not (act)) (not (u_walk)))
 	)
-	(:action run_l3_fair 
-		:parameters ()
-		:precondition (and (at c2) (not (broken)) (l3) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at c2)) (at c0)) (and (not (act)) (run_unfair)) )
+	(:action walk_eff_d1_explained_by_d3 
+		:parameters (?o - cell ?d - cell)
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d1_walk) (scratch) (not (at ?o)) (at ?d))
+		:effect (and (scratch) (e_d3) (not (eff_d1_walk)) (not (act)) (not (u_walk)))
 	)
-	(:action run_l2_fair 
-		:parameters ()
-		:precondition (and (at c2) (not (broken)) (l2) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at c2)) (at c0)) (and (not (at c2)) (at c0) (scratch)) (and (not (act)) (run_unfair)))
+	(:action walk_eff_d1_explained_by_d2 
+		:parameters (?o - cell ?d - cell)
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d1_walk) (not (at ?o)) (at ?d) (or (not (scratch)) (at ?o) (not (at ?d))))
+		:effect (and (scratch) (e_d2) (not (eff_d1_walk)) (not (act)) (not (u_walk)))
 	)
-	(:action run_l1_fair 
-		:parameters ()
-		:precondition (and (at c2) (not (broken)) (l1) (act) (not (walk_unfair)) (not (run_unfair)))
-		:effect (oneof (and (not (at c2)) (at c0) ) (and (not (at c2)) (at c0) (scratch)) (and (broken)))
+	(:action walk_eff_d1_explained_by_d1 
+		:parameters (?o - cell ?d - cell)
+		:precondition (and  (at ?o) (adj ?o ?d) (not (broken)) (eff_d1_walk) (or (not (scratch)) (at ?o) (not (at ?d))) (or (at ?o) (not (at ?d))))
+		:effect (and (scratch) (e_d1) (not (eff_d1_walk)) (not (act)) (not (u_walk)))
 	)
 	(:action run_unfair_ 
 		:parameters ()
-		:precondition (and (not (walk_unfair)) (not (act)) (run_unfair))
-		:effect (oneof (and (eff_3_run) (e3) (not (run_unfair))) (and (eff_2_run) (e2) (not (run_unfair))) (and (eff_1_run) (e1) (not (run_unfair))))
+		:precondition (and  (act) (u_run))
+		:effect (oneof (and (eff_d3_run) (not (act))) (and (eff_d2_run) (not (act))) (and (eff_d1_run) (not (act))))
 	)
-	(:action run_eff3_explained_by_l3 
+	(:action run_d3 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_3_run))
-		:effect (and (not (at c2)) (at c0) (not (eff_3_run)))
+		:precondition (and  (at c2) (not (broken)) (l_d3) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at c2)) (at c0)) (u_run))
 	)
-	(:action run_eff2_explained_by_l3 
+	(:action run_d2 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_2_run) (scratch))
-		:effect (and (not (at c2)) (at c0) (scratch) (not (eff_2_run)) (e3))
+		:precondition (and  (at c2) (not (broken)) (l_d2) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at c2)) (at c0)) (and (not (at c2)) (at c0) (scratch)) (u_run))
 	)
-	(:action run_eff1_explained_by_l3 
+	(:action run_d1 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_1_run) (broken) (not (at c2)) (at c0))
-		:effect (and (broken) (not (eff_1_run)) (e3))
+		:precondition (and  (at c2) (not (broken)) (l_d1) (act) (not (u_walk)) (not (u_run)))
+		:effect (oneof (and (not (at c2)) (at c0)) (and (not (at c2)) (at c0) (scratch)) (broken))
 	)
-	(:action run_eff2_explained_by_l2 
+	(:action run_eff_d3_explained_by_d3 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_2_run))
-		:effect (and (not (at c2)) (at c0) (scratch) (not (eff_2_run)))
+		:precondition (and  (at c2) (not (broken)) (eff_d3_run))
+		:effect (and (not (at c2)) (at c0) (e_d3) (not (eff_d3_run)) (not (act)) (not (u_run)))
 	)
-	(:action run_eff1_explained_by_l2 
+	(:action run_eff_d2_explained_by_d3 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_1_run) (broken) (not (at c2)) (at c0) (scratch))
-		:effect (and (broken) (not (eff_1_run)) (e2))
+		:precondition (and  (at c2) (not (broken)) (eff_d2_run) (scratch))
+		:effect (and (not (at c2)) (at c0) (scratch) (e_d3) (not (eff_d2_run)) (not (act)) (not (u_run)))
 	)
-	(:action run_eff1_explained_by_l1 
+	(:action run_eff_d2_explained_by_d2 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (eff_1_run))
-		:effect (and (broken) (not (eff_1_run)))
+		:precondition (and  (at c2) (not (broken)) (eff_d2_run) (or (not (scratch))))
+		:effect (and (not (at c2)) (at c0) (scratch) (e_d2) (not (eff_d2_run)) (not (act)) (not (u_run)))
 	)
-	(:action check_goal_3 
+	(:action run_eff_d1_explained_by_d3 
 		:parameters ()
-		:precondition (and (at c0) (not (broken)) (l3) (act))
+		:precondition (and  (at c2) (not (broken)) (eff_d1_run) (broken) (not (at c2)) (at c0))
+		:effect (and (broken) (e_d3) (not (eff_d1_run)) (not (act)) (not (u_run)))
+	)
+	(:action run_eff_d1_explained_by_d2 
+		:parameters ()
+		:precondition (and  (at c2) (not (broken)) (eff_d1_run) (broken) (not (at c2)) (at c0) (scratch) (or (not (broken)) (at c2) (not (at c0))))
+		:effect (and (broken) (e_d2) (not (eff_d1_run)) (not (act)) (not (u_run)))
+	)
+	(:action run_eff_d1_explained_by_d1 
+		:parameters ()
+		:precondition (and  (at c2) (not (broken)) (eff_d1_run) (or (not (broken)) (at c2) (not (at c0))) (or (not (broken)) (at c2) (not (at c0)) (not (scratch))))
+		:effect (and (broken) (e_d1) (not (eff_d1_run)) (not (act)) (not (u_run)))
+	)
+	(:action check_goal_d3 
+		:parameters ()
+		:precondition (and  (at c0) (not (scratch)) (not (broken)) (l_d3) (act))
 		:effect (end)
 	)
-	(:action check_goal_2 
+	(:action check_goal_d2 
 		:parameters ()
-		:precondition (and (at c0) (not (broken)) (l2) (act))
+		:precondition (and  (at c0) (not (broken)) (l_d2) (act))
 		:effect (end)
 	)
-	(:action check_goal_1 
+	(:action check_goal_d1 
 		:parameters ()
-		:precondition (and (at c2) (not (broken)) (l1) (act))
+		:precondition (and  (at c2) (l_d1) (act) (not (broken)))
 		:effect (end)
 	)
 )

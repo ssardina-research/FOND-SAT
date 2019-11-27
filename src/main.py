@@ -74,6 +74,11 @@ args_parser.add_argument(
     default=False,
     help='Show final policy, if found %(default)s)')
 args_parser.add_argument(
+    '--draw-policy',
+    action='store_true',
+    default=False,
+    help='Draw final policy (controller), if found %(default)s)')
+args_parser.add_argument(
     '--no-clean',
     action='store_true',
     default=False,
@@ -92,6 +97,7 @@ time_buffer = 2
 mem_limit = params['mem_limit']
 
 print_policy = params['show_policy']
+draw_policy = params['draw_policy']
 strong = params['strong']
 show_gen_info = params['gen_info']
 no_clean = params['no_clean']
@@ -171,7 +177,14 @@ for i in range(params['start'], 1000):   # try up to controller of size 1000
 
     ## 3 - PARSE OUTPUT OF SAT SOLVER AND CHECK IF IT WAS SOLVED
     #TODO: would be nice to have this return a representation of the policy, and then have a print facility
-    result = cnf.parseOutput(name_output_satsolver, controllerStates, p, print_policy)
+    result = None
+    if not draw_policy:
+        result = cnf.parseOutput(name_output_satsolver, controllerStates, p, print_policy)
+    else:
+        file_name = "result.txt"
+        out_file_name = "controller"
+        result = cnf.parseOutputPrintController(name_output_satsolver, controllerStates, p,file_name,out_file_name)
+        
     if result is None:  # clean-up whatever aux files were generated for this iteration
         clean(name_formula_file, name_output_satsolver, name_SAS_file, name_formula_file_extra, name_final,
                        '-> OUT OF TIME/MEM')

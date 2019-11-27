@@ -7,8 +7,7 @@
 		(adj c0 c1)
 		(adj c1 c2)
 		(act)
-		(scratch)
-		(l3))
+		(l_d3))
 	(:goal (and 
 		(end)))
 )

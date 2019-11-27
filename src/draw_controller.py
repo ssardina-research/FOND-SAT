@@ -3,7 +3,7 @@ from graphviz import Digraph
 
 
 #TODO: Alberto --> clen and comment this a bit
-def draw(file):
+def draw(file,outfile):
     G = Digraph()
     infile = open(file,'r')
 
@@ -42,8 +42,6 @@ def draw(file):
 
 
 
-    directory = file.replace('result.txt','controller')
+    directory = file.replace(file,outfile)
     G.render(directory)
 
-if __name__ == '__main__':
-    draw('result.txt')
