@@ -36,13 +36,13 @@ To add a new solver:
 The general execution is as follows:
 
 ```shell
-$ python src/main.py [OPTIONS] path_domain path_instance
+$ python src/fondsat.py [OPTIONS] path_domain path_instance
 ```
 
 The path to the domain and the task must be included. For a list of options available use `-h`:
 
 ```shell
-$ python src/main.py -h
+$ python src/fondsat.py -h
 usage: main.py [-h] [--solver {minisat,glucose}] [--time-limit TIME_LIMIT] [--mem-limit MEM_LIMIT] [--strong]
                [--start START] [--inc INC] [--end END] [--gen-info] [--show-policy] [--draw-policy] [--name-tmp NAME_TMP]
                [--tmp]
@@ -52,7 +52,7 @@ usage: main.py [-h] [--solver {minisat,glucose}] [--time-limit TIME_LIMIT] [--me
 An easy/quick solvable run would be:
 
 ```shell
-$ python src/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
+$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
 ```
 
 This would run the solver for the task 03 of the Islands domain, using Glucose as SAT solver and leaving behind the temporary files.
@@ -60,7 +60,7 @@ This would run the solver for the task 03 of the Islands domain, using Glucose a
 A more challenging ask (taking around 500secs/8min) would be:
 
 ```shell
-$ python src/main.py F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
+$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
 
 ....
 s SATISFIABLE
@@ -84,7 +84,7 @@ Done
 It found a policy with 10 states. So, if we directly start with 10 states we should get a single SAT iteration that is shorter:
 
 ```shell
-$ python src/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
 
 ...
 
@@ -109,7 +109,7 @@ Done
 Let's try the same but with MiniSAT:
 
 ```shell
-$ python src/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
 
 ...
 
@@ -135,7 +135,7 @@ As one can see, using glucose seems to be much faster than using minisat.
 Finally, if we tell FOND-SAT to try between 6 and 8 states, the planner will not find any solution;
 
 ```shell
-$ python src/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 6 --end 8
+$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 6 --end 8
 
 ...
 s UNSATISFIABLE

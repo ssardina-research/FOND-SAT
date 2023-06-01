@@ -1,3 +1,5 @@
+#!/bin/python
+
 import subprocess
 import draw_controller
 import random
