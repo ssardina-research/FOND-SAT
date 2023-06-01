@@ -13,7 +13,7 @@ import os
 
 # Append the folder of this script to Python path so that planner can be run from anywhere
 # TODO: seems not needed anymore as Python adds the script dir by default!!
-DIR = os.path.dirname(os.path.abspath(__file__))
+DIR = os.path.dirname(os.path.realpath(__file__))
 # sys.path.append(DIR)
 
 MINISAT_BIN=os.path.join(DIR, 'solvers',  'minisat')
