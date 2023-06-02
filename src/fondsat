@@ -1,0 +1,10 @@
+#! /bin/bash
+
+set -e
+
+REALPATH=$(realpath $0)
+BASEDIR="$(dirname "$REALPATH")"
+echo $BASEDIR
+
+PLANNER="python $BASEDIR/fondsat.py ${@:1}"
+$PLANNER
