@@ -1,4 +1,4 @@
-#!/bin/python
+#! python
 
 import subprocess
 import draw_controller
