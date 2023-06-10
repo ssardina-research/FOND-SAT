@@ -1,10 +1,10 @@
-#! /bin/bash
+#!/bin/bash
 
 set -e
 
 REALPATH=$(realpath $0)
 BASEDIR="$(dirname "$REALPATH")"
-echo $BASEDIR
+# echo $BASEDIR
 
 PLANNER="python $BASEDIR/src/main.py ${@:1}"
 $PLANNER
