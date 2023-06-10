@@ -33,10 +33,17 @@ To add a new solver:
 
 ## Running the planner
 
+The planner can be run via the shell script [`fondsat`](fondsat) or via Python script [`src/main.py`](src/main.py). Both can be used from any place in the filesystem.
+
 The general execution is as follows:
 
 ```shell
 $ python src/fondsat.py [OPTIONS] path_domain path_instance
+
+or
+
+$ ./fondsat [OPTIONS] path_domain path_instance
+
 ```
 
 The path to the domain and the task must be included. For a list of options available use `-h`:
