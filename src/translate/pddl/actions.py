@@ -6,6 +6,7 @@ from . import conditions
 from . import effects
 from . import pddl_types
 
+
 class Action(object):
     def __init__(self, name, parameters, num_external_parameters,
                  precondition, effects, cost):
@@ -21,9 +22,11 @@ class Action(object):
         self.precondition = precondition
         self.effects = effects
         self.cost = cost
-        self.uniquify_variables() # TODO: uniquify variables in cost?
+        self.uniquify_variables()  # TODO: uniquify variables in cost?
+
     def __repr__(self):
         return "<Action %r at %#x>" % (self.name, id(self))
+
     def parse(alist):
         iterator = iter(alist)
         action_tag = next(iterator)
@@ -62,7 +65,9 @@ class Action(object):
         for rest in iterator:
             assert False, rest
         return [Action(name + suffix, parameters, len(parameters), precondition, eff, cost) for (cost, eff, suffix) in cost_eff_pairs]
+
     parse = staticmethod(parse)
+
     def dump(self):
         print("%s(%s)" % (self.name, ", ".join(map(str, self.parameters))))
         print("Precondition:")
@@ -71,15 +76,17 @@ class Action(object):
         for eff in self.effects:
             eff.dump()
         print("Cost:")
-        if(self.cost):
+        if (self.cost):
             self.cost.dump()
         else:
             print("  None")
+
     def uniquify_variables(self):
         self.type_map = dict([(par.name, par.type) for par in self.parameters])
         self.precondition = self.precondition.uniquify_variables(self.type_map)
         for effect in self.effects:
             effect.uniquify_variables(self.type_map)
+
     def relaxed(self):
         new_effects = []
         for eff in self.effects:
@@ -89,6 +96,7 @@ class Action(object):
         return Action(self.name, self.parameters, self.num_external_parameters,
                       self.precondition.relaxed().simplified(),
                       new_effects)
+
     def untyped(self):
         # We do not actually remove the types from the parameter lists,
         # just additionally incorporate them into the conditions.
@@ -129,14 +137,15 @@ class Action(object):
         else:
             cost = int(self.cost.instantiate(var_mapping, init_facts).expression.value)
         return PropositionalAction(name, precondition, effects, cost)
-        #if effects:
+        # if effects:
         #    if self.cost is None:
         #        cost = 0
         #    else:
         #        cost = int(self.cost.instantiate(var_mapping, init_facts).expression.value)
         #    return PropositionalAction(name, precondition, effects, cost)
-        #else:
+        # else:
         #    return None
+
 
 class PropositionalAction:
     def __init__(self, name, precondition, effects, cost):
@@ -155,8 +164,10 @@ class PropositionalAction:
             if effect.negated and (condition, effect.negate()) not in self.add_effects:
                 self.del_effects.append((condition, effect.negate()))
         self.cost = cost
+
     def __repr__(self):
         return "<PropositionalAction %r at %#x>" % (self.name, id(self))
+
     def dump(self):
         print(self.name)
         for fact in self.precondition:

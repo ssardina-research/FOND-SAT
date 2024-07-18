@@ -10,6 +10,7 @@ from . import pddl_types
 from . import functions
 from . import f_expression
 
+
 class Task(object):
     def __init__(self, domain_name, task_name, requirements,
                  types, objects, predicates, functions, init, goal, actions, axioms, use_metric):
@@ -38,13 +39,13 @@ class Task(object):
     @staticmethod
     def parse(domain_pddl, task_pddl):
         domain_name, domain_requirements, types, constants, predicates, functions, actions, axioms \
-                     = parse_domain(domain_pddl)
+            = parse_domain(domain_pddl)
         task_name, task_domain_name, task_requirements, objects, init, goal, use_metric = parse_task(task_pddl)
 
         assert domain_name == task_domain_name
         requirements = Requirements(sorted(set(
-                    domain_requirements.requirements +
-                    task_requirements.requirements)))
+            domain_requirements.requirements +
+            task_requirements.requirements)))
         objects = constants + objects
         check_for_duplicates(
             [o.name for o in objects],
@@ -83,18 +84,21 @@ class Task(object):
             for axiom in self.axioms:
                 axiom.dump()
 
+
 class Requirements(object):
     def __init__(self, requirements):
         self.requirements = requirements
         for req in requirements:
             assert req in (
-              ":strips", ":adl", ":typing", ":negation", ":equality",
-              ":negative-preconditions", ":disjunctive-preconditions",
-              ":existential-preconditions", ":universal-preconditions",
-              ":quantified-preconditions", ":conditional-effects",
-              ":derived-predicates", ":action-costs", ":non-deterministic"), req
+                ":strips", ":adl", ":typing", ":negation", ":equality",
+                ":negative-preconditions", ":disjunctive-preconditions",
+                ":existential-preconditions", ":universal-preconditions",
+                ":quantified-preconditions", ":conditional-effects",
+                ":derived-predicates", ":action-costs", ":non-deterministic"), req
+
     def __str__(self):
         return ", ".join(self.requirements)
+
 
 def parse_domain(domain_pddl):
     iterator = iter(domain_pddl)
@@ -123,7 +127,7 @@ def parse_domain(domain_pddl):
             raise SystemExit("Error in domain specification\n" +
                              "Reason: two '%s' specifications." % field)
         if (seen_fields and
-            correct_order.index(seen_fields[-1]) > correct_order.index(field)):
+                correct_order.index(seen_fields[-1]) > correct_order.index(field)):
             msg = "\nWarning: %s specification not allowed here (cf. PDDL BNF)" % field
             print(msg, file=sys.stderr)
         seen_fields.append(field)
@@ -131,15 +135,15 @@ def parse_domain(domain_pddl):
             requirements = Requirements(opt[1:])
         elif field == ":types":
             the_types.extend(pddl_types.parse_typed_list(opt[1:],
-                        constructor=pddl_types.Type))
+                                                         constructor=pddl_types.Type))
         elif field == ":constants":
             constants = pddl_types.parse_typed_list(opt[1:])
         elif field == ":predicates":
             the_predicates = [predicates.Predicate.parse(entry)
                               for entry in opt[1:]]
             the_predicates += [predicates.Predicate("=",
-                                 [pddl_types.TypedObject("?x", "object"),
-                                  pddl_types.TypedObject("?y", "object")])]
+                                                    [pddl_types.TypedObject("?x", "object"),
+                                                     pddl_types.TypedObject("?y", "object")])]
         elif field == ":functions":
             the_functions = pddl_types.parse_typed_list(
                 opt[1:],
@@ -166,6 +170,7 @@ def parse_domain(domain_pddl):
             the_actions.extend(action_copies)
     yield the_actions
     yield the_axioms
+
 
 def parse_task(task_pddl):
     iterator = iter(task_pddl)
@@ -206,11 +211,11 @@ def parse_task(task_pddl):
                 assignment = f_expression.parse_assignment(fact)
             except ValueError as e:
                 raise SystemExit("Error in initial state specification\n" +
-                                 "Reason: %s." %  e)
+                                 "Reason: %s." % e)
             if not isinstance(assignment.expression,
                               f_expression.NumericConstant):
                 raise SystemExit("Illegal assignment in initial state " +
-                    "specification:\n%s" % assignment)
+                                 "specification:\n%s" % assignment)
             if assignment.fluent in initial_assignments:
                 prev = initial_assignments[assignment.fluent]
                 if assignment.expression == prev.expression:
@@ -219,7 +224,7 @@ def parse_task(task_pddl):
                 else:
                     raise SystemExit("Error in initial state specification\n" +
                                      "Reason: conflicting assignment for " +
-                                     "%s." %  assignment.fluent)
+                                     "%s." % assignment.fluent)
             else:
                 initial_assignments[assignment.fluent] = assignment
                 initial.append(assignment)
@@ -241,7 +246,7 @@ def parse_task(task_pddl):
     use_metric = False
     for entry in iterator:
         if entry[0] == ":metric":
-            if entry[1]=="minimize" and entry[2][0] == "total-cost":
+            if entry[1] == "minimize" and entry[2][0] == "total-cost":
                 use_metric = True
             else:
                 assert False, "Unknown metric."
@@ -250,15 +255,16 @@ def parse_task(task_pddl):
     for entry in iterator:
         assert False, entry
 
+
 def check_atom_consistency(atom, same_truth_value, other_truth_value, atom_is_true=True):
     if atom in other_truth_value:
         raise SystemExit("Error in initial state specification\n" +
-                         "Reason: %s is true and false." %  atom)
+                         "Reason: %s is true and false." % atom)
     if atom in same_truth_value:
         if not atom_is_true:
             atom = atom.negate()
         print("Warning: %s is specified twice in initial state specification" % atom)
-    
+
 
 def check_for_duplicates(elements, errmsg, finalmsg):
     seen = set()
@@ -270,4 +276,3 @@ def check_for_duplicates(elements, errmsg, finalmsg):
             seen.add(element)
     if errors:
         raise SystemExit("\n".join(errors) + "\n" + finalmsg)
-
