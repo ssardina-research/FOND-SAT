@@ -16,7 +16,7 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 
 MINISAT_BIN=os.path.join(DIR, 'solvers',  'minisat')
 GLUCOSE_BIN=os.path.join(DIR, 'solvers',  'glucose')
-
+KISSAT_BIN=os.path.join(DIR, 'solvers',  'kissat')
 
 def clean(files, msg):
     print(msg)
@@ -42,7 +42,7 @@ args_parser.add_argument('path_instance',
                          help='Path to problem instance file (pddl)')
 
 args_parser.add_argument('--solver',
-                         choices=['minisat', 'glucose'],
+                         choices=['minisat', 'glucose', 'kissat'],
                          default='minisat',
                          help='SAT solver to use - (default: %(default)s)')
 args_parser.add_argument('--time-limit',
@@ -191,7 +191,9 @@ for i in range(params['start'], params['end']+1):
         mem_limit, time_for_sat))
 
     if solver == 'glucose':
-       	command = [GLUCOSE_BIN, name_formula_file, name_output_satsolver]
+        command = [GLUCOSE_BIN, name_formula_file, name_output_satsolver]
+    elif solver == "kissat":
+        command = [KISSAT_BIN, name_formula_file, "--relaxed"]
     elif solver == 'minisat':
         command = [MINISAT_BIN]
         if mem_limit > 0:
@@ -207,7 +209,11 @@ for i in range(params['start'], params['end']+1):
     # ACTUAL CALL TO SAT SOLVER!
     print(command)
     start_solver_time = timer()
-    subprocess.run(command)
+    if solver == "kissat":
+        _out = open(name_output_satsolver, "w+")
+        subprocess.run(command, stdout=_out)
+    else:
+        subprocess.run(command)
     end_solver_time = timer()
 
     start_result = timer()
@@ -236,6 +242,7 @@ for i in range(params['start'], params['end']+1):
               '-> No Result')
     if result:  # plan found, get out of the iteration!
         print("PLANFOUND!")
+        print(f"Number of controller states: {len(controllerStates)}")
         break
     print('UNSATISFIABLE')
     end_result = timer()
