@@ -83,7 +83,7 @@ class Parser:
     def generate_file(self, sas_file_name):
         if self.domain == None or self.problem == None:
             raise MyError('Domain and/or problem not set!')
-        time_limit = 1000
+        time_limit = 300
 
         ## We generate the SAS FastDownward output file: http://www.fast-downward.org/TranslatorOutputFormat
         print("Translating PDDL to SAS.....")
