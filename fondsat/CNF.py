@@ -1,12 +1,14 @@
 from timeit import default_timer as timer
 from .draw_controller import draw
 from itertools import islice
+import inspect
 
 import logging
 import coloredlogs
 
 logger: logging.Logger = None
 DEBUG_LEVEL = "INFO"
+# DEBUG_LEVEL = "DEBUG"
 
 class MyCNFError(Exception):
     def __init__(self, value):
@@ -405,7 +407,8 @@ class CNF:
         clause_dimacs += "0" # add final mark 0 to clause DIMACS format
 
         if self.dimacs_comments:
-            self.file_formula.write(f"c " + str(clause) + "\n")
+            caller_func = inspect.stack()[1][3] # this is costly! use for debug only...
+            self.file_formula.write(f"c {caller_func}: " + str(clause) + "\n")
         self.file_formula.write(clause_dimacs + "\n")
 
     def addClauseExtra(self, clause):
@@ -1173,7 +1176,7 @@ class CNF:
 
 def _get_logger() -> logging.Logger:
     logger = logging.getLogger(__name__)
-    coloredlogs.install(level=DEBUG_LEVEL)
+    coloredlogs.install(level=DEBUG_LEVEL, logger=logger)
     return logger
 
 
