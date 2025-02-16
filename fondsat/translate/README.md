@@ -18,12 +18,12 @@ This translator basically does two things:
 This determinization SAS encoding has been used by various planners, such as:
 
 * FIP.
-* [PRP](https://github.com/ssardina-planning/planner-for-relevant-policies).
-* [FOND-SAT](https://github.com/ssardina-planning/FOND-SAT).
+* [PRP](https://github.com/QuMuLab/planner-for-relevant-policies). 
+* [FOND-SAT](https://github.com/tomasgeffner/FOND-SAT).
 
 This repo basically has factored out such encoding into its own repo for modularity and further development as an independent tool.
 
-Other FOND planners (like [myND](https://github.com/ssardina-planning/myND) and [Paladinus](https://github.com/ramonpereira/paladinus)) use a translation to SAS, but a different one that does not include determinization of the domain.
+Other FOND planners (like [myND](https://github.com/robertmattmueller/myND) and [Paladinus](https://github.com/ramonpereira/paladinus)) use a translation to SAS, but a different one that does not include determinization of the domain.
 
-For a lifted determinization---from PDDL to PDDL--check [fond2allout](https://github.com/ssardina-research/fond2allout).
+For a lifted determinization---from PDDL to PDDL--check [fond-utils](https://github.com/AI-Planning/fond-utils).
 
