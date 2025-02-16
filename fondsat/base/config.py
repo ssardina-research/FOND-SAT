@@ -1,13 +1,10 @@
 import os
 
-# Append the folder of this script to Python path so that planner can be run from anywhere
-# TODO: seems not needed anymore as Python adds the script dir by default!!
-DIR = os.path.dirname(os.path.realpath(__file__))
-# sys.path.append(DIR)
+from fondsat import ROOT_PATH
 
-MINISAT_BIN = os.path.join(DIR, "solvers", "minisat")
-GLUCOSE_BIN = os.path.join(DIR, "solvers", "glucose")
-KISSAT_BIN = os.path.join(DIR, "solvers", "kissat")
+MINISAT_BIN = os.path.join(ROOT_PATH, "solvers", "minisat")
+GLUCOSE_BIN = os.path.join(ROOT_PATH, "solvers", "glucose")
+KISSAT_BIN = os.path.join(ROOT_PATH, "solvers", "kissat")
 
 
 CLINGO_BIN = "clingo"
