@@ -15,6 +15,7 @@ from .draw_controller import draw
 import logging
 
 logger: logging.Logger = None
+DEBUG_LEVEL = logging.INFO
 
 
 def clean(files, msg):
@@ -35,8 +36,8 @@ def generateControllerStates(i):
 def main():
     """Main function to run the planner. Entry point of the program."""
     # set logger
-    logger = logging.getLogger(__name__)
-    coloredlogs.install(level=logging.DEBUG)
+    logger = logging.getLogger("FONDSAT")
+    coloredlogs.install(level=DEBUG_LEVEL, logger=logger)
 
     # CLI options
     args_parser = argparse.ArgumentParser(
@@ -177,8 +178,10 @@ def main():
     grounding_time = []
     result_time = []
     # try these number of controller sizes
+    logger.info(f"Starting iterations from {params['start']} to {params['end']}")
     for i in range(params["start"], params["end"] + 1):
         start_ground = timer()
+        logger.info(f"Trying with {i} states...")
         if time_limit > 0 and timer() - time_start > time_limit - time_buffer:
             clean(
                 [
@@ -209,6 +212,7 @@ def main():
 
         ## 1 - GENERATE CNF for the particular size of the controller
         #       Use n0 and ng are the atoms for initial and goal controller states
+        logger.info(f"Generating clauses...")
         cnf.generate_clauses(
             my_task,
             "n0",
