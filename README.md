@@ -46,42 +46,32 @@ To add a new solver:
 The planner is offered as a binary application if the planner has been installed as a package via pip:
 
 ```shell
-$ fondsat [options] fond_domain fond_problem
+$ fondsat [OPTIONS] fond_domain fond_problem
 ```
 
-The general execution is as follows:
+Use `-h` to get all options available.
+
+Note this is equivalent to cloning the planner repo and from its root folder execute:
 
 ```shell
-$ python fondsat/main.py [OPTIONS] path_domain path_instance
-
-or
-
-$ ./fondsat [OPTIONS] path_domain path_instance
-
-```
-
-The path to the domain and the task must be included. For a list of options available use `-h`:
-
-```shell
-$ python fondsat/main.py -h
-usage: main.py [-h] [--solver {minisat,glucose}] [--time-limit TIME_LIMIT] [--mem-limit MEM_LIMIT] [--strong]
-               [--start START] [--inc INC] [--end END] [--gen-info] [--show-policy] [--draw-policy] [--name-tmp NAME_TMP]
-               [--tmp]
-               path_domain path_instance
-```
+$ python -m fondsat [OPTIONS] fond_domain fond_problem
+ ```
 
 An easy/quick solvable run would be:
 
 ```shell
-$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
+$ python -m fondsat F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
+
+# if already installed as package
+$ fondsat F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
 ```
 
 This would run the solver for the task 03 of the Islands domain, using Glucose as SAT solver and leaving behind the temporary files.
 
-A more challenging ask (taking around 500secs/8min) would be:
+A more challenging ask (taking around 500secs/8min and using 10 states) would be:
 
 ```shell
-$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
+$ fondsat F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
 
 ....
 s SATISFIABLE
@@ -105,21 +95,21 @@ Done
 It found a policy with 10 states. So, if we directly start with 10 states we should get a single SAT iteration that is shorter:
 
 ```shell
-$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ fondsat F-domains/islands/domain.pddl F-domains/islands/p47.pddl --start 10 --solver glucose
 
 ...
-
 s SATISFIABLE
 SAT
-Done solver. Round time: 17.831398
-Cumulated solver time: 17.831397656991612
+Done solver. Round time: 6.986108
+Cumulated solver time: 6.9861076709930785
 PLANFOUND!
-Elapsed total time (s): 157.229258
-Elapsed initialisation time (s): 5.736119034991134
-Elapsed grounding time (s): 115.8947535949992
-Elapsed grounding time (s): [115.8947535949992]
-Elapsed solver time (s): 17.831398
-Elapsed solver time (s): [17.831397656991612]
+Number of controller states: 12
+Elapsed total time (s): 57.583673
+Elapsed initialisation time (s): 2.3045000990387052
+Elapsed grounding time (s): 40.83439256902784
+Elapsed grounding time (s): [40.83439256902784]
+Elapsed solver time (s): 6.986108
+Elapsed solver time (s): [6.9861076709930785]
 Elapsed result output time (s): 0
 Elapsed result output time (s): []
 Looking for strong plans: False
@@ -130,20 +120,21 @@ Done
 Let's try the same but with MiniSAT:
 
 ```shell
-$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ fondsat F-domains/islands/domain.pddl F-domains/islands/p47.pddl --start 10 --solver minisat
 
 ...
 
 SATISFIABLE
-Done solver. Round time: 91.031980
-Cumulated solver time: 91.03197950900358
+Done solver. Round time: 37.664106
+Cumulated solver time: 37.6641057980014
 PLANFOUND!
-Elapsed total time (s): 228.864515
-Elapsed initialisation time (s): 5.941680243995506
-Elapsed grounding time (s): 112.23787351899955
-Elapsed grounding time (s): [112.23787351899955]
-Elapsed solver time (s): 91.031980
-Elapsed solver time (s): [91.03197950900358]
+Number of controller states: 12
+Elapsed total time (s): 87.636747
+Elapsed initialisation time (s): 2.421148548950441
+Elapsed grounding time (s): 39.97268579399679
+Elapsed grounding time (s): [39.97268579399679]
+Elapsed solver time (s): 37.664106
+Elapsed solver time (s): [37.6641057980014]
 Elapsed result output time (s): 0
 Elapsed result output time (s): []
 Looking for strong plans: False
@@ -151,12 +142,12 @@ Fair actions: True
 Done
 ```
 
-As one can see, using glucose seems to be much faster than using minisat.
+As one can see, using glucose seems to be much faster than using minisat (7s vs 37s).
 
 Finally, if we tell FOND-SAT to try between 6 and 8 states, the planner will not find any solution;
 
 ```shell
-$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 6 --end 8
+$ fondsat F-domains/islands/domain.pddl F-domains/islands/p47.pddl --start 6 --end 8 --solver glucose
 
 ...
 s UNSATISFIABLE
