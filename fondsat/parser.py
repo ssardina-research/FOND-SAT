@@ -6,10 +6,11 @@ from .objs import Variable, Operator
 from .myTask import MyTask
 
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-TRANSLATE_BIN=os.path.join(FILE_DIR, "translate/translate.py")
+TRANSLATE_BIN = os.path.join(FILE_DIR, "translate/translate.py")
+
 
 def generate_atom(name, val):
-    return '(' + name + '=' + str(val) + ')'
+    return "(" + name + "=" + str(val) + ")"
 
 
 class MyError(Exception):
@@ -34,38 +35,40 @@ class Parser:
 
     def print_task(self):
         self.print_variables()
-        print('==============================')
+        print("==============================")
         self.print_initial()
-        print('==============================')
+        print("==============================")
         self.print_goal()
-        print('==============================')
+        print("==============================")
         self.print_operators()
 
     def print_operators(self):
         for o in self.operators:
             print(o.name)
-            print('PRE')
+            print("PRE")
             for p in o.prec:
                 var = p[0]
                 val = p[1]
                 print(self.variables[var].get_str(val))
-            print('EFFECTS')
+            print("EFFECTS")
             for p in o.effects:
                 var = p[0]
                 val1 = p[1]
                 val2 = p[2]
                 if val1 == -1:
-                    print('---------', self.variables[var].get_str(val2))
+                    print("---------", self.variables[var].get_str(val2))
                 else:
-                    print(self.variables[var].get_str(val1),
-                          self.variables[var].get_str(val2))
-            print('-----------------------')
+                    print(
+                        self.variables[var].get_str(val1),
+                        self.variables[var].get_str(val2),
+                    )
+            print("-----------------------")
 
     def print_variables(self):
         for v in self.variables:
             print(v)
             self.variables[v].print_me()
-            print('-----------------------')
+            print("-----------------------")
 
     def print_initial(self):
         for i in self.initial:
@@ -83,7 +86,7 @@ class Parser:
 
     def generate_file(self, sas_file_name):
         if self.domain == None or self.problem == None:
-            raise MyError('Domain and/or problem not set!')
+            raise MyError("Domain and/or problem not set!")
         time_limit = 300
 
         ## We generate the SAS FastDownward output file: http://www.fast-downward.org/TranslatorOutputFormat
@@ -91,37 +94,45 @@ class Parser:
         # command = f'python {TRANSLATE_BIN} {time_limit} {self.domain} {self.problem} {sas_file_name} | grep "noprint"'
         # subprocess.run(command, shell=True)
 
-        command = ['python', TRANSLATE_BIN, str(time_limit), self.domain, self.problem, "--outsas", sas_file_name]
+        command = [
+            "python",
+            TRANSLATE_BIN,
+            str(time_limit),
+            self.domain,
+            self.problem,
+            "--outsas",
+            sas_file_name,
+        ]
         subprocess.run(command, stdout=subprocess.DEVNULL)
 
     def generate_task(self, sas_file_name):
         try:
-            f_task = open(sas_file_name, 'r')
+            f_task = open(sas_file_name, "r")
         except:
-            raise MyError('Error opening sas file!')
+            raise MyError("Error opening sas file!")
 
         lines = f_task.readlines()
         lines = self.__process_lines(lines)
         limits = self.__get_limits(lines)
-        for (init, end) in limits:
-            self.process(lines[init + 1: end], lines[init])
+        for init, end in limits:
+            self.process(lines[init + 1 : end], lines[init])
 
     def process(self, lines, title):
-        if 'version' in title:
+        if "version" in title:
             self.process_version(lines)
-        if 'metric' in title:
+        if "metric" in title:
             self.process_metric(lines)
-        if 'variable' in title:
+        if "variable" in title:
             self.process_variable(lines)
-        if 'mutex_group' in title:
+        if "mutex_group" in title:
             self.process_mutex_group(lines)
-        if 'state' in title:
+        if "state" in title:
             self.process_initial_state(lines)
-        if 'goal' in title:
+        if "goal" in title:
             self.process_goal(lines)
-        if 'operator' in title:
+        if "operator" in title:
             self.process_operator(lines)
-        if 'rule' in title:
+        if "rule" in title:
             self.process_rule(lines)
 
     def process_version(self, lines):
@@ -143,8 +154,8 @@ class Parser:
     def process_mutex_group(self, lines):
         mutex_g = []
         for line in lines[1:]:
-            var = int(line.split(' ')[0])
-            val = int(line.split(' ')[1])
+            var = int(line.split(" ")[0])
+            val = int(line.split(" ")[1])
             mutex_g.append((var, val))
         self.mutex_groups.append(mutex_g)
 
@@ -158,8 +169,8 @@ class Parser:
             if first:
                 first = False
                 continue
-            var = int(line.split(' ')[0])
-            value = int(line.split(' ')[1])
+            var = int(line.split(" ")[0])
+            value = int(line.split(" ")[1])
             self.goal[var] = value
 
     def process_operator(self, lines):
@@ -167,12 +178,13 @@ class Parser:
         o.set_name(lines[0])
         num_prev_cond = int(lines[1])
         if num_prev_cond != 0:
-            self.__process_prevail_conditions(lines[2:2 + num_prev_cond], o)
+            self.__process_prevail_conditions(lines[2 : 2 + num_prev_cond], o)
         line_num_effects = 2 + num_prev_cond
         num_effects = int(lines[line_num_effects])
         if num_effects != 0:
             self.__process_effects(
-                lines[line_num_effects + 1:line_num_effects + num_effects + 1], o)
+                lines[line_num_effects + 1 : line_num_effects + num_effects + 1], o
+            )
         self.operators.add(o)
         # o.print_me()
 
@@ -182,12 +194,13 @@ class Parser:
 
     def __process_effects(self, lines, operator):
         for line in lines:
-            l_split = line.split(' ')
+            l_split = line.split(" ")
             if len(l_split) != 4:
                 raise MyError(
-                    'Incorrect number of components in effects of an operator!')
-            if l_split[0] != '0':
-                raise MyError('First component of effects != 0!')
+                    "Incorrect number of components in effects of an operator!"
+                )
+            if l_split[0] != "0":
+                raise MyError("First component of effects != 0!")
             var = int(l_split[1])
             pre = int(l_split[2])
             eff = int(l_split[3])
@@ -196,48 +209,48 @@ class Parser:
     def __process_prevail_conditions(self, lines, operator):
         for line in lines:
             try:
-                var, value = line.split(' ')
+                var, value = line.split(" ")
             except:
-                raise MyError('Error processing prevail conditions!')
+                raise MyError("Error processing prevail conditions!")
             operator.add_precondition(int(var), int(value))
 
     def __get_limits(self, lines):
         initis = []
         ends = []
         for i, line in enumerate(lines):
-            if 'begin_' in line:
+            if "begin_" in line:
                 initis.append(i)
-            if 'end_' in line:
+            if "end_" in line:
                 ends.append(i)
         if len(initis) != len(ends):
-            raise MyError('Inits and ends of different size!')
+            raise MyError("Inits and ends of different size!")
         return zip(initis, ends)
 
     def __process_lines(self, lines):
         p_lines = []
         for line in lines:
-            p_lines.append(line.split('\n')[0])
+            p_lines.append(line.split("\n")[0])
         return p_lines
 
     def translate_to_atomic(self):
         task = MyTask()
         debug = False
-        print('Setting atoms')
+        print("Setting atoms")
         task.set_atoms(self.get_atoms(), debug)
-        print('Setting initial')
+        print("Setting initial")
         task.set_initial(self.get_initial_atomic(), debug)
-        print('Setting goal')
+        print("Setting goal")
         task.set_goal(self.get_goal_atomic(), debug)
-        print('Setting actions')
+        print("Setting actions")
         task.set_actions_atomic(self.get_actions_atomic(), debug)
-        print('Setting mutexes')
+        print("Setting mutexes")
         task.set_mutex_groups(self.get_mutex_groups_atomic(), debug)
-        print('Setting relevant actions')
+        print("Setting relevant actions")
         task.set_relevant_actions(debug)
-        print('Setting splitting')
+        print("Setting splitting")
         task.initialize_splitting(debug)
         start = timer()
-        print('Setting compatible actions')
+        print("Setting compatible actions")
         task.create_compatible_actions(debug)
         print(timer() - start)
         return task
@@ -294,8 +307,7 @@ class Parser:
                                 continue
                             atom_del = generate_atom(name, v)
                             del_list.add(atom_del)
-            actions[act_name] = [
-                list(preconditions), list(add_list), list(del_list)]
+            actions[act_name] = [list(preconditions), list(add_list), list(del_list)]
         return actions
 
     def get_mutex_groups_atomic(self):
@@ -311,8 +323,8 @@ class Parser:
 
     def get_var_string(self, name):
         # name = (varX=Y)
-        s = name[1:len(name) - 1]
+        s = name[1 : len(name) - 1]
         # s = varX=Y
-        var = int(s.split('=')[0].split('var')[1])
-        val = int(s.split('=')[1])
+        var = int(s.split("=")[0].split("var")[1])
+        val = int(s.split("=")[1])
         return self.variables[var].get_str(val)
