@@ -8,37 +8,51 @@ FOND solver based on SAT, as per the following paper:
 
 ### Files
 
-* `F-domains/` contains the FOND domains used
-* `src/` contains the code for the solver, and a pre-compiled version of Minisat
-  * `src/translate` contains the the parser from [PRP](https://github.com/QuMuLab/planner-for-relevant-policies).
+* `F-domains/` contains the FOND domains used. A more complete set of FOND problems can be found at [fond-domains](https://github.com/AI-Planning/fond-domains/) repo
+* `fondsat/` contains the code for the FOND solver, including pre-compiled version of SAT solvers
+  * `fondsat/translate` contains the the translator (SAS encoding + all-outcome determinization) from [PRP](https://github.com/QuMuLab/planner-for-relevant-policies).
 
-### Python Modules
+### Install
 
-```bash
-$ pip install graphviz # to draw controllers
+The planner is distributed as a package and can then be installed via pip from the repo directly as follows:
+
+```shell
+$ pip install git+https://github.com/tomasgeffner/FOND-SAT
+```
+
+Alternatively, one can clone first and install the planner:
+
+```shell
+$ git clone https://github.com/tomasgeffner/FOND-SAT
+$ cd fond-sat
+$ pip install .
 ```
 
 ### SAT solvers
 
 Two SAT solvers are already provided: [MiniSat](https://github.com/master-keying/minisat/) (default) and [Glucose](https://www.labri.fr/perso/lsimon/glucose/).
 
-For easiness to use, binary Linux version of both are packaged in FOND-SAT. The version of MiniSAT form has been obtained (and compiled) from [master-keying /
-minisat](https://github.com/master-keying/minisat/), which is a much more maintained repo than the one in the [original site](http://minisat.se/).
+For easiness to use, binary Linux version of both are packaged in FOND-SAT (folder `fondsat/solvers/`). The version of MiniSAT has been obtained (and compiled) from [master-keying/minisat](https://github.com/master-keying/minisat/), which is a much more maintained repo than the one in the [original site](http://minisat.se/).
 
 To add a new solver:
 
 1. Add a new choice for option `--solver`.
 2. Modify `main.py` to account for the new solver and define the corresponding `command` for it.
-3. Provide the adequate `parseOutput()` function in `src/CNF.py` to parse the output of the solver used.
+3. Provide the adequate `parseOutput()` function in `fondsat/CNF.py` to parse the output of the solver used.
+4. Add the binary solver in folder `fondsat/solvers/`.
 
 ## Running the planner
 
-The planner can be run via the shell script [`fondsat`](fondsat) or via Python script [`src/main.py`](src/main.py). Both can be used from any place in the filesystem.
+The planner is offered as a binary application if the planner has been installed as a package via pip:
+
+```shell
+$ fondsat [options] fond_domain fond_problem
+```
 
 The general execution is as follows:
 
 ```shell
-$ python src/fondsat.py [OPTIONS] path_domain path_instance
+$ python fondsat/main.py [OPTIONS] path_domain path_instance
 
 or
 
@@ -49,7 +63,7 @@ $ ./fondsat [OPTIONS] path_domain path_instance
 The path to the domain and the task must be included. For a list of options available use `-h`:
 
 ```shell
-$ python src/fondsat.py -h
+$ python fondsat/main.py -h
 usage: main.py [-h] [--solver {minisat,glucose}] [--time-limit TIME_LIMIT] [--mem-limit MEM_LIMIT] [--strong]
                [--start START] [--inc INC] [--end END] [--gen-info] [--show-policy] [--draw-policy] [--name-tmp NAME_TMP]
                [--tmp]
@@ -59,7 +73,7 @@ usage: main.py [-h] [--solver {minisat,glucose}] [--time-limit TIME_LIMIT] [--me
 An easy/quick solvable run would be:
 
 ```shell
-$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
+$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --solver glucose --tmp
 ```
 
 This would run the solver for the task 03 of the Islands domain, using Glucose as SAT solver and leaving behind the temporary files.
@@ -67,7 +81,7 @@ This would run the solver for the task 03 of the Islands domain, using Glucose a
 A more challenging ask (taking around 500secs/8min) would be:
 
 ```shell
-$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
+$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p47.pddl --solver glucose
 
 ....
 s SATISFIABLE
@@ -91,7 +105,7 @@ Done
 It found a policy with 10 states. So, if we directly start with 10 states we should get a single SAT iteration that is shorter:
 
 ```shell
-$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
 
 ...
 
@@ -116,7 +130,7 @@ Done
 Let's try the same but with MiniSAT:
 
 ```shell
-$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
+$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 10 --solver glucose
 
 ...
 
@@ -142,7 +156,7 @@ As one can see, using glucose seems to be much faster than using minisat.
 Finally, if we tell FOND-SAT to try between 6 and 8 states, the planner will not find any solution;
 
 ```shell
-$ python src/fondsat.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 6 --end 8
+$ python fondsat/main.py F-domains/islands/domain.pddl F-domains/islands/p03.pddl --start 6 --end 8
 
 ...
 s UNSATISFIABLE
