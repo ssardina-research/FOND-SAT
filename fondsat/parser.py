@@ -1,8 +1,9 @@
 import os
 import subprocess
-from objs import Variable, Operator
-from myTask import MyTask
 from timeit import default_timer as timer
+
+from .objs import Variable, Operator
+from .myTask import MyTask
 
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 TRANSLATE_BIN=os.path.join(FILE_DIR, "translate/translate.py")

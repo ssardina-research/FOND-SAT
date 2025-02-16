@@ -1,8 +1,6 @@
-import sys
 from timeit import default_timer as timer
-from draw_controller import draw
+from .draw_controller import draw
 from itertools import islice
-import os
 
 class MyCNFError(Exception):
     def __init__(self, value):

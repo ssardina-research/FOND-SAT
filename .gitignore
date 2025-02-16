@@ -230,3 +230,4 @@ dmypy.json
 policy*
 tmp_*
 controller.dot*
+.vscode/settings.json
