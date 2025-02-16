@@ -5,13 +5,10 @@ from timeit import default_timer as timer
 from .objs import Variable, Operator
 from .myTask import MyTask
 
-FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-TRANSLATE_BIN = os.path.join(FILE_DIR, "translate/translate.py")
-
+from .base.config import FD_INV_LIMIT, TRANSLATOR_BIN
 
 def generate_atom(name, val):
     return "(" + name + "=" + str(val) + ")"
-
 
 class MyError(Exception):
     def __init__(self, value):
@@ -87,17 +84,16 @@ class Parser:
     def generate_file(self, sas_file_name):
         if self.domain == None or self.problem == None:
             raise MyError("Domain and/or problem not set!")
-        time_limit = 300
 
         ## We generate the SAS FastDownward output file: http://www.fast-downward.org/TranslatorOutputFormat
         print("Translating PDDL to SAS.....")
-        # command = f'python {TRANSLATE_BIN} {time_limit} {self.domain} {self.problem} {sas_file_name} | grep "noprint"'
+        # command = f'python {TRANSLATOR_BIN} {time_limit} {self.domain} {self.problem} {sas_file_name} | grep "noprint"'
         # subprocess.run(command, shell=True)
 
         command = [
             "python",
-            TRANSLATE_BIN,
-            str(time_limit),
+            TRANSLATOR_BIN,
+            str(FD_INV_LIMIT),
             self.domain,
             self.problem,
             "--outsas",

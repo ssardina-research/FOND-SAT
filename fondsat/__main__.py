@@ -7,18 +7,10 @@ import shutil
 from timeit import default_timer as timer
 
 from fondsat import VERSION
-from fondsat.base.config import (
-    MINISAT_BIN,
-    GLUCOSE_BIN,
-    KISSAT_BIN,
-    PYTHON_MINOR_VERSION,
-    TRANSLATOR_BIN,
-)
-from .utils.system_utils import get_pkg_root
+from .base.config import MINISAT_BIN, GLUCOSE_BIN, KISSAT_BIN
 from .CNF import CNF
 from .parser import Parser
 from .draw_controller import draw
-
 
 import logging
 
@@ -126,9 +118,15 @@ def main():
         default=False,
         help="Do not clean temporary files created (default: %(default)s)",
     )
+    args_parser.add_argument(
+        "--comments",
+        action="store_true",
+        default=False,
+        help="Add comments in DIMACS encoding for each clause (default: %(default)s)",
+    )
     # vars returns a dictionary of the arguments
     params = vars(args_parser.parse_args())
-    print(params)  # just print the options that will be used
+    logger.info(params)  # just print the options that will be used
 
     # TMP_DIR: subdir where to store all aux files generated (e.g., SAS files)
     tmp_id = (
@@ -149,6 +147,7 @@ def main():
     strong = params["strong"]
     show_gen_info = params["gen_info"]
     no_clean = params["tmp"]
+    comments = params["comments"]
 
     solver = params["solver"]
 
@@ -170,7 +169,7 @@ def main():
     name_formula_file_extra = os.path.join(TMP_DIR, "formula-extra.txt")  # aux file
     name_output_satsolver = os.path.join(TMP_DIR, "outsat.txt")  # aux file
     cnf = CNF(
-        name_formula_file, name_formula_file_extra, fair, strong
+        name_formula_file, name_formula_file_extra, fair, strong, comments=comments
     )  # generate CNF formla into aux files
 
     init_time = timer() - time_start

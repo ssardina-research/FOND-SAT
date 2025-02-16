@@ -17,14 +17,7 @@ with open("README.md", "r") as fh:
 
 install_requires = [
     "coloredlogs",
-    "fond-utils",
-    "graphviz",
-    "networkit",
-    "numpy<2",
-    "pddl",
-    "psutil",
-    "py-cpuinfo",
-    "Pygments"
+    "graphviz"
 ]
 
 setup(
@@ -43,14 +36,25 @@ setup(
         "Operating System :: POSIX :: Linux",
     ],
     python_requires=">=3.10",
-    packages=find_packages(include=["fondutils*"]),
+    packages=find_packages(include=["fondsat*"]),
     include_package_data=True,
     data_files=[
-        ("fondsat/solvers/", glob.glob("translate/**/*", recursive=True)),
+        (
+            "fondsat/solvers/",
+            glob.glob("fondsat/solvers/*", recursive=True),
+        ),
+        (
+            "fondsat/translate/",
+            glob.glob("fondsat/translate/**/*.py", recursive=True),
+        ),
     ],
+    # data_files=[
+    #     (
+    #         glob.glob("fondsat/solvers/", recursive=False),
+    #         glob.glob("fondsat/translate/", recursive=True),
+    #     ),
+    # ],
     install_requires=install_requires,
-    entry_points={
-        "console_scripts": ["cfond-asp=cfondasp.__main__:main","cfond-asp-verify=cfondasp.__verify__:main"]
-    },
+    entry_points={"console_scripts": ["fondsat=fondsat.__main__:main"]},
     zip_safe=False,
 )
